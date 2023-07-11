@@ -1,0 +1,30 @@
+- name: Fix TZ configuration for changes with Mexico (2022)
+  hosts: all
+  become: true
+  tz_packages:
+    6: 
+      - tzdata.rpm
+      - tzdata-java.rpm
+    7:
+      - tzdata.rpm
+      - tzdata-java.rpm
+    8:
+      - tzdata.rpm
+      - tzdata-java.rpm
+    9:
+      - tzdata.rpm
+      - tzdata-java.rpm
+
+  tasks:
+    - name: Fix only RHEL
+      ansible.builtin.assert:
+        that: ansible_distribution == 'RedHat'
+
+    - name: Configure workaround for RHEL6 hosts that no longer have an update channel
+      ansible.builtin.include_tasks:
+        file: tasks/rhel6.yml
+
+    - name: Update tzdata using regular channels or manual rpm file for pkg updates on RHEL> 6
+      ansible.builtin.include_tasks:
+        file: tasks/rhel789.yml
+        

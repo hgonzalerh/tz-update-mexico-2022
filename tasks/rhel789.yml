@@ -1,0 +1,19 @@
+- name: First, try regular updates with Satellite or CDN
+  block:
+    - ansible.builtin.package:
+        name: tzdata>=2022g
+        state: present
+      loop: "{{ tz_packages[ansible_distribution_major_version] }}"
+  # If unsuccessful, try putting the updated packages manually
+  rescue:
+    - name: Push the static packages to the managed node
+      ansible.builtin.copy:
+        src: files/{{ item }}
+        dest: .
+      loop: "{{ tz_packages[ansible_distribution_major_version] }}"
+
+    - name: Install the actual packages
+      ansible.builtin.package:
+        name: ./{{ item }}
+        state: present
+      loop: "{{ tz_packages[ansible_distribution_major_version] }}"

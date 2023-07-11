@@ -1,0 +1,4 @@
+- name: Set timezone statically to Etc/GMT-6
+  ansible.builtin.command: 
+    cmd: timedatectl set-timezone Etc/GMT-6
+  become: true
