@@ -2,18 +2,15 @@
   hosts: all
   become: true
   tz_packages:
-    6: 
-      - tzdata.rpm
-      - tzdata-java.rpm
     7:
-      - tzdata.rpm
-      - tzdata-java.rpm
+      - tzdata-2023c-1.el7.noarch.rpm
+      - tzdata-java-2023c-1.el7.noarch.rpm
     8:
-      - tzdata.rpm
-      - tzdata-java.rpm
+      - tzdata-2023c-1.el8.noarch.rpm
+      - tzdata-java-2023c-1.el8.noarch.rpm
     9:
-      - tzdata.rpm
-      - tzdata-java.rpm
+      - tzdata-2023c-1.el9.noarch.rpm
+      - tzdata-java-2023c-1.el9.noarch.rpm
 
   tasks: 
     - name: Fix only RHEL
