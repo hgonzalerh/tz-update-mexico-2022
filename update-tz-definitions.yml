@@ -2,7 +2,6 @@
   hosts: all
   become: true
   vars:
-    package_repository: "http://10.82.54.101:8080/Packages"
     tz_packages:
       7:
         - tzdata-2023c-1.el7.noarch.rpm
