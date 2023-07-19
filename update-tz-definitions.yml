@@ -1,16 +1,18 @@
 - name: Fix TZ configuration for changes with Mexico (2022)
   hosts: all
   become: true
-  tz_packages:
-    7:
-      - tzdata-2023c-1.el7.noarch.rpm
-      - tzdata-java-2023c-1.el7.noarch.rpm
-    8:
-      - tzdata-2023c-1.el8.noarch.rpm
-      - tzdata-java-2023c-1.el8.noarch.rpm
-    9:
-      - tzdata-2023c-1.el9.noarch.rpm
-      - tzdata-java-2023c-1.el9.noarch.rpm
+  vars:
+    package_repository: "http://10.82.54.101:8080/Packages"
+    tz_packages:
+      7:
+        - tzdata-2023c-1.el7.noarch.rpm
+        - tzdata-java-2023c-1.el7.noarch.rpm
+      8:
+        - tzdata-2023c-1.el8.noarch.rpm
+        - tzdata-java-2023c-1.el8.noarch.rpm
+      9:
+        - tzdata-2023c-1.el9.noarch.rpm
+        - tzdata-java-2023c-1.el9.noarch.rpm
 
   tasks: 
     - name: Fix only RHEL
