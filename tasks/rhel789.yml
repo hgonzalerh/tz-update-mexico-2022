@@ -1,6 +1,8 @@
 - name: First, try regular updates with Satellite or CDN
   block:
-    - ansible.builtin.package:
+    # No need to check for installed versions, this task also does that
+    - name: Check if package is at the right version already or try regular update
+      ansible.builtin.package:
         name: tzdata>=2022g
         state: present
   # If unsuccessful, try putting the updated packages manually
