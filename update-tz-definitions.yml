@@ -15,7 +15,7 @@
       - tzdata.rpm
       - tzdata-java.rpm
 
-  tasks:
+  tasks: 
     - name: Fix only RHEL
       ansible.builtin.assert:
         that: ansible_distribution == 'RedHat'
