@@ -15,9 +15,14 @@
         - tzdata-java-2023c-1.el9.noarch.rpm
 
   tasks: 
-    - name: Make sure we have RHEL as an OS, or fail otherwise
+    - name: Fail when OS is nor RHEL
       ansible.builtin.assert:
         that: ansible_distribution == 'RedHat'
+
+    - name: Fail for any managed node not configured for America/Mexico_City
+      ansible.builtin.shell:
+        cmd: grep America/Mexico_City /etc/timezone
+      changed_when: false
 
     - name: Configure workaround for RHEL6 hosts that no longer have an update channel
       ansible.builtin.include_tasks:
