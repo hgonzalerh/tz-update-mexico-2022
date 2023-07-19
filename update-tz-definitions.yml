@@ -15,15 +15,17 @@
         - tzdata-java-2023c-1.el9.noarch.rpm
 
   tasks: 
-    - name: Fix only RHEL
+    - name: Make sure we have RHEL as an OS, or fail otherwise
       ansible.builtin.assert:
         that: ansible_distribution == 'RedHat'
 
     - name: Configure workaround for RHEL6 hosts that no longer have an update channel
       ansible.builtin.include_tasks:
         file: tasks/rhel6.yml
+      when: ansible_distribution_major_version in ['6',]
 
     - name: Update tzdata using regular channels or manual rpm file for pkg updates on RHEL> 6
       ansible.builtin.include_tasks:
         file: tasks/rhel789.yml
+      when: ansible_distribution_major_version in ['7','8','9']
         
