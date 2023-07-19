@@ -1,4 +1,4 @@
-- name: Fix TZ configuration for changes with Mexico (2022)
+- name: Fix TZ configuration for America/Mexico_City and other Mexican TZ after 2022 changes 
   hosts: all
   become: true
   vars:
