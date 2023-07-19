@@ -9,7 +9,7 @@
   rescue:
     - name: Download tzdata package(s)
       ansible.builtin.get_url:
-        url: http://10.82.54.101:8080/Packages/{{ item }}
+        url: "{{ package_repository }}/{{ item }}"
         dest: ./
       delegate_to: localhost
       loop: "{{ tz_packages[ansible_distribution_major_version] }}"
