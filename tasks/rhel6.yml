@@ -1,4 +1,11 @@
-- name: Set timezone statically to Etc/GMT-6
-  ansible.builtin.command: 
-    cmd: timedatectl set-timezone Etc/GMT-6
-  become: true
+- name: First, try regular updates with Satellite or CDN
+  block:
+    - ansible.builtin.package:
+        name: tzdata>=2022g
+        state: present
+  # If unsuccessful, set statically to GMT-6
+  rescue:
+    - name: Set timezone statically to Etc/GMT-6
+      ansible.builtin.command: 
+        cmd: timedatectl set-timezone Etc/GMT-6
+      become: true
