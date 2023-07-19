@@ -3,7 +3,6 @@
     - ansible.builtin.package:
         name: tzdata>=2022g
         state: present
-      loop: "{{ tz_packages[ansible_distribution_major_version] }}"
   # If unsuccessful, try putting the updated packages manually
   rescue:
     - name: Download tzdata package(s)
