@@ -6,6 +6,13 @@
       loop: "{{ tz_packages[ansible_distribution_major_version] }}"
   # If unsuccessful, try putting the updated packages manually
   rescue:
+    - name: Download tzdata package(s)
+      ansible.builtin.get_url:
+        url: http://10.82.54.101:8080/Packages/{{ item }}
+        dest: ./
+      delegate_to: localhost
+      loop: "{{ tz_packages[ansible_distribution_major_version] }}"
+    
     - name: Push the static packages to the managed node
       ansible.builtin.copy:
         src: files/{{ item }}
