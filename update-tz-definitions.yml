@@ -3,6 +3,10 @@
   become: true
   vars:
     tz_packages:
+      6:
+        # These don't actually exist in the repos, but the names are here to extract the current name of the packages
+        - tzdata-2023c-1.el6.noarch.rpm
+        - tzdata-java-2023c-1.el6.noarch.rpm       
       7:
         - tzdata-2023c-1.el7.noarch.rpm
         - tzdata-java-2023c-1.el7.noarch.rpm
@@ -27,6 +31,7 @@
       ansible.builtin.include_tasks:
         file: tasks/rhel6.yml
       when: ansible_distribution_major_version in ['6',]
+      loop: "{{ tz_packages[ansible_distribution_major_version] }}"
 
     - name: Update tzdata using regular channels or manual rpm file for pkg updates on RHEL> 6
       ansible.builtin.include_tasks:
