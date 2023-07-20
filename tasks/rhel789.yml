@@ -1,14 +1,15 @@
-- name: First, try regular updates with Satellite or CDN
+- name: Check for versions for each package
   block:
-    # No need to check for installed versions, this task also does that
+  
     - name: Simple test from Red Hat to see if machine needs updating
       # https://access.redhat.com/solutions/7003091
       ansible.builtin.shell:
         cmd: rpm -q {{ item.split('-')[0] }}
       register: package_full_name
+      
     - name: Fail if tzdata(-java) version is too low, repair below
       assert:
-        that: paclage_full_name.stdout.split('-')[1] >= '2022g'
+        that: package_full_name.stdout.split('-')[1] >= '2022g'
       
   # If unsuccessful, try putting the updated packages manually
   rescue:
@@ -18,7 +19,7 @@
         dest: ./
       delegate_to: localhost
     
-    - name: Push the static packages to the managed node
+    - name: Push the static package to the managed node
       ansible.builtin.copy:
         src: ./{{ item }}
         dest: .
