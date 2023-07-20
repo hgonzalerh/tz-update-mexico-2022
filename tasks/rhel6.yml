@@ -2,16 +2,16 @@
   block:
     - name: Simple test from Red Hat to see if machine needs updating
       # https://access.redhat.com/solutions/7003091
-      ansible.builtin.shell:
+      ansible.builtin.command:
         cmd: rpm -q {{ item.split('-')[0] }}
       register: package_full_name
-      
+
     - name: Fail if tzdata(-java) version is too low, repair below
       ansible.builtin.assert:
         that: package_full_name.stdout.split('-')[1] >= '2022g'
   # If unsuccessful, set statically to GMT-6
   rescue:
     - name: Set timezone statically to Etc/GMT-6
-      ansible.builtin.command: 
+      ansible.builtin.command:
         cmd: timedatectl set-timezone Etc/GMT-6
       become: true

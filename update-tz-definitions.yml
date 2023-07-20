@@ -17,25 +17,24 @@
         - tzdata-2023c-1.el9.noarch.rpm
         - tzdata-java-2023c-1.el9.noarch.rpm
 
-  tasks: 
+  tasks:
     - name: Fail when OS is nor RHEL
       ansible.builtin.assert:
         that: ansible_distribution == 'RedHat'
 
     - name: Fail for any managed node not configured for America/Mexico_City
-      ansible.builtin.shell:
+      ansible.builtin.command:
         cmd: grep America/Mexico_City /etc/timezone
       changed_when: false
 
     - name: Configure workaround for RHEL6 hosts that no longer have an update channel
       ansible.builtin.include_tasks:
         file: tasks/rhel6.yml
-      when: ansible_distribution_major_version in ['6',]
+      when: ansible_distribution_major_version in ['6']
       loop: "{{ tz_packages[ansible_distribution_major_version] }}"
 
     - name: Update tzdata using regular channels or manual rpm file for pkg updates on RHEL> 6
       ansible.builtin.include_tasks:
         file: tasks/rhel789.yml
-      when: ansible_distribution_major_version in ['7','8','9']
+      when: ansible_distribution_major_version in ['7', '8' ,'9']
       loop: "{{ tz_packages[ansible_distribution_major_version] }}"
-        
