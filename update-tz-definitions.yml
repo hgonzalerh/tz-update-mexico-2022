@@ -3,17 +3,17 @@
   become: true
   vars:
     tz_packages:
-      6:
+      '6':
         # These don't actually exist in the repos, but the names are here to extract the current name of the packages
         - tzdata-2023c-1.el6.noarch.rpm
         - tzdata-java-2023c-1.el6.noarch.rpm       
-      7:
+      '7':
         - tzdata-2023c-1.el7.noarch.rpm
         - tzdata-java-2023c-1.el7.noarch.rpm
-      8:
+      '8':
         - tzdata-2023c-1.el8.noarch.rpm
         - tzdata-java-2023c-1.el8.noarch.rpm
-      9:
+      '9':
         - tzdata-2023c-1.el9.noarch.rpm
         - tzdata-java-2023c-1.el9.noarch.rpm
 
