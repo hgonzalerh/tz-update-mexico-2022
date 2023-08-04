@@ -3,13 +3,13 @@
     - name: Simple test from Red Hat to see if machine needs updating
       # https://access.redhat.com/solutions/7003091
       ansible.builtin.command:
-        cmd: rpm -q {{ item.split('-')[0] }}
+        cmd: rpm -q {{ item.split('-')[:-2] | join('-') }}
       changed_when: false
       register: package_full_name
 
     - name: Fail if tzdata(-java) version is too low, repair below
       ansible.builtin.assert:
-        that: package_full_name.stdout.split('-')[1] >= '2022g'
+        that: package_full_name.stdout.split('-')[-2] >= '2022g'
   # If unsuccessful, set statically to GMT-6
   rescue:
     - name: Set timezone statically to Etc/GMT-6
