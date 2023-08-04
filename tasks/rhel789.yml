@@ -29,5 +29,8 @@
     - name: Install the actual packages from file
       # yum module would be ideal,m but some version of RHEL7 will install by name even with the path to the RPM
       ansible.builtin.command:
-        cmd: yum install -y ./{{ item }}
+        cmd: rpm -i --quiet ./{{ item }}
+      changed_when: ('installed' in _.stdout)
+      failed_when: false
+      
 
