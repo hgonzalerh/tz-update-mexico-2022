@@ -27,7 +27,7 @@
         mode: '0644'
 
     - name: Install the actual packages from file
-      # yum module would be ideal,m but some version of RHEL7 will install by name even with the path to the RPM
+      # yum module would be ideal, but some versions of RHEL7 will install by name even with the path to the RPM
       ansible.builtin.command:
         cmd: rpm -i --quiet ./{{ item }}
       changed_when: ('already' not in _.stdout)
