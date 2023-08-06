@@ -3,6 +3,7 @@
     - name: Simple test from Red Hat to see if machine needs updating
       # https://access.redhat.com/solutions/7003091
       ansible.builtin.command:
+      # rpm -q <package short name from package file> 
         cmd: rpm -q {{ item.split('-')[:-2] | join('-') }}
       changed_when: false
       register: package_full_name
@@ -11,7 +12,7 @@
       ansible.builtin.assert:
         that: package_full_name.stdout.split('-')[-2] >= '2022g'
 
-  # If unsuccessful, try putting the updated packages manually
+  # If either old package or no package, transfer the rpm and update manually
   rescue:
     - name: Download tzdata package(s)
       ansible.builtin.get_url:
@@ -26,12 +27,15 @@
         dest: .
         mode: '0644'
 
-    - name: Install the actual packages from file
-      # yum module would be ideal, but some versions of RHEL7 will install by name even with the path to the RPM
+    - name: Install the actual packages from file, unconditionally
+      # yum module would be ideal, but sanity of the YUM repositories is required
+      # and we want to skip checking the repo structure, so we're using rpm unconditionally
       ansible.builtin.command:
-        cmd: rpm -i --quiet ./{{ item }}
+        cmd: rpm -U --quiet ./{{ item }}
       register: _
       changed_when: ('already' not in _.stdout)
-      failed_when: false
+      # In normal operation, this command should succeed, all version checks have been performed
+      # elsewhere in the playbook. So a fail is a fail.
+      
             
 
