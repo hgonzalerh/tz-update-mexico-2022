@@ -30,7 +30,8 @@
       # yum module would be ideal, but some versions of RHEL7 will install by name even with the path to the RPM
       ansible.builtin.command:
         cmd: rpm -i --quiet ./{{ item }}
+      register: _
       changed_when: ('already' not in _.stdout)
       failed_when: false
-      
+            
 
